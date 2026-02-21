@@ -584,6 +584,7 @@ function AddView({ cards, setCards, showToast }) {
   const [loading, setLoading] = useState(false);
   const [aiResults, setAiResults] = useState([]);
   const fileRef = useRef();
+  const resultsRef = useRef();
 
   const addManual = () => {
     if (!en.trim() || !de.trim()) return;
@@ -616,6 +617,7 @@ function AddView({ cards, setCards, showToast }) {
       if (!res.ok) { showToast("Fehler bei der KI-Analyse"); setLoading(false); return; }
       const data = await res.json();
       setAiResults(data.vocab);
+      setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
     } catch { showToast("Fehler bei der KI-Analyse"); }
     setLoading(false);
   };
@@ -690,7 +692,7 @@ function AddView({ cards, setCards, showToast }) {
             </>
           )}
           {aiResults.length > 0 && (
-            <>
+            <div ref={resultsRef}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
                 <span style={{ fontFamily: "Syne, sans-serif", fontWeight: 800, fontSize: 15 }}>Gefunden ({aiResults.length})</span>
                 <button className="btn btn-success btn-sm" onClick={addAllAi}>Alle übernehmen</button>
@@ -704,7 +706,7 @@ function AddView({ cards, setCards, showToast }) {
                   </div>
                 ))}
               </div>
-            </>
+            </div>
           )}
         </div>
       )}
