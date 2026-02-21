@@ -1,0 +1,22 @@
+# Abhängigkeiten
+node_modules/
+
+# Build-Output
+dist/
+
+# Lokale Umgebungsvariablen – NIEMALS einchecken!
+.env
+.env.local
+.env.*.local
+
+# Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS
+.DS_Store
+Thumbs.db
