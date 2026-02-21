@@ -99,8 +99,10 @@ export default async function handler(req, res) {
 
     const data = await anthropicRes.json();
     const text = data.content.map((b) => b.text || "").join("");
-    const clean = text.replace(/```json|```/g, "").trim();
-    const vocab = JSON.parse(clean);
+    // Extrahiere das JSON-Array auch wenn die KI einen einleitenden Satz schreibt
+    const match = text.match(/\[[\s\S]*\]/);
+    if (!match) throw new Error("Kein JSON-Array in der Antwort gefunden");
+    const vocab = JSON.parse(match[0]);
 
     return res.status(200).json({ vocab });
   } catch (err) {
